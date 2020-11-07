@@ -1,6 +1,34 @@
-Welcome to project Druidry!
+Druidry Query project!
 =======================================
+This project is a simplified version of Druidry for those who handle http querying themselves.
 
+Removed code
+-----------
+Whole package `in.zapr.druid.druidry.client` including `DruidConfiguration` and `DruidClient`.
+
+Removed dependencies
+-----------
+- `joda-time` replaced with java time
+- `logback-classic`, `logback-core`
+- `commons-lang3`
+- `jersey-client`, `jersey-media-json-jackson`, `jersey-hk2`, `jersey-apache-connector`
+
+Usage
+-----------
+Add this in your pom.xml (assuming maven based project)
+
+```xml
+        <dependency>
+            <groupId>pl.szymeker.druid</groupId>
+            <artifactId>druidry-query</artifactId>
+            <version>${LATEST_VERSION}</version>
+        </dependency>
+```
+
+Replace ${LATEST_VERSION} with the latest release version 
+
+Druidy docs
+=======================================
 ![build_status](https://api.travis-ci.org/zapr-oss/druidry.svg?branch=master) [![License: Apache License 2](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt) [![javadoc](https://javadoc.io/badge2/in.zapr.druid/druidry/javadoc.svg)](https://javadoc.io/doc/in.zapr.druid/druidry)
 
 Druid is an extremely popular tool to perform OLAP queries on event data. Druid drives real-time dashboards in most of the organisations right now. We@Zapr love Druid! Therefore we want to contribute towards making Druid, even more, friendlier to the ever expanding community.
