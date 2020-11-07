@@ -18,7 +18,7 @@ package in.zapr.druid.druidry.topNMetric;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import in.zapr.druid.druidry.query.config.SortingOrder;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -26,8 +26,6 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import in.zapr.druid.druidry.query.config.SortingOrder;
 
 public class DimensionMetricTest {
 

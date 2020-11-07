@@ -18,7 +18,6 @@ package in.zapr.druid.druidry.granularity;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.json.JSONException;
@@ -28,6 +27,10 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import java.time.ZonedDateTime;
+
+import static java.time.ZoneOffset.UTC;
 
 public class DurationGranularityTest {
 
@@ -41,7 +44,7 @@ public class DurationGranularityTest {
     @Test
     public void testAllFields() throws JSONException, JsonProcessingException {
 
-        DateTime originDate = new DateTime(DateTimeZone.UTC);
+        ZonedDateTime originDate = ZonedDateTime.now(UTC);
         DurationGranularity granularity = new DurationGranularity(3141, originDate);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("type", "duration");
@@ -85,7 +88,7 @@ public class DurationGranularityTest {
     public void testEqualsWithAnotherSubClass() {
         SimpleGranularity granularity1 = new SimpleGranularity(PredefinedGranularity.ALL);
 
-        DateTime originDate = new DateTime(DateTimeZone.UTC);
+        ZonedDateTime originDate = ZonedDateTime.now(UTC);
         DurationGranularity granularity2 = new DurationGranularity(3141, originDate);
 
         Assert.assertNotEquals(granularity1, granularity2);

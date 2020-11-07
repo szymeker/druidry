@@ -16,31 +16,33 @@
 
 package in.zapr.druid.druidry.query.config;
 
-import org.joda.time.DateTime;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import in.zapr.druid.druidry.query.config.Interval;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 
 public class IntervalTest {
 
     @Test(expectedExceptions = NullPointerException.class)
     public void testMissingStartField() {
 
-        DateTime startTime = new DateTime();
+        ZonedDateTime startTime = ZonedDateTime.now();
         Interval interval = new Interval(startTime, null);
     }
 
     @Test(expectedExceptions = NullPointerException.class)
     public void testMissingEndField() {
-        DateTime endTime = new DateTime();
+        ZonedDateTime endTime = ZonedDateTime.now();
         Interval interval = new Interval(null, endTime);
     }
 
     @Test
     public void intervalEqualityTest() {
-        DateTime startTime = new DateTime();
-        DateTime endTime = startTime.plusDays(1);
+        ZonedDateTime startTime = ZonedDateTime.now();
+        ZonedDateTime endTime = startTime.plusDays(1);
 
         Interval interval1 = new Interval(startTime, endTime);
         Interval interval2 = new Interval(startTime, endTime);
@@ -50,10 +52,32 @@ public class IntervalTest {
 
         Assert.assertNotEquals(interval1, interval3);
 
-        DateTime otherStartTime = new DateTime(startTime);
-        DateTime otherEndTime = new DateTime(endTime);
+        ZonedDateTime otherStartTime = ZonedDateTime.from(startTime);
+        ZonedDateTime otherEndTime = ZonedDateTime.from(endTime);
 
         Interval interval4 = new Interval(otherStartTime, otherEndTime);
         Assert.assertEquals(interval1, interval4);
+    }
+
+    @Test
+    public void shouldFormatIntervalAsIsoString() throws JsonProcessingException {
+        ZonedDateTime startTime = ZonedDateTime.of(2020, 3, 14, 15, 30, 0, 0, ZoneOffset.UTC);
+        ZonedDateTime endTime = ZonedDateTime.of(2020, 3, 15, 15, 30, 0, 0, ZoneOffset.UTC);
+
+        Interval interval = new Interval(startTime, endTime);
+        String intervalJson = new ObjectMapper().writeValueAsString(interval);
+
+        Assert.assertEquals(intervalJson, "\"2020-03-14T15:30:00Z/2020-03-15T15:30:00Z\"");
+    }
+
+    @Test
+    public void shouldFormatIntervalAsIsoStringWhenMillis() throws JsonProcessingException {
+        ZonedDateTime startTime = ZonedDateTime.of(2020, 3, 14, 15, 30, 0, 10000000, ZoneOffset.UTC);
+        ZonedDateTime endTime = ZonedDateTime.of(2020, 3, 15, 15, 30, 0, 10000000, ZoneOffset.UTC);
+
+        Interval interval = new Interval(startTime, endTime);
+        String intervalJson = new ObjectMapper().writeValueAsString(interval);
+
+        Assert.assertEquals(intervalJson, "\"2020-03-14T15:30:00.01Z/2020-03-15T15:30:00.01Z\"");
     }
 }

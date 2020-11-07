@@ -18,13 +18,11 @@ package in.zapr.druid.druidry.dimension;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import in.zapr.druid.druidry.dimension.enums.OutputType;
 import org.json.JSONException;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import in.zapr.druid.druidry.dimension.enums.OutputType;
 
 public class SimpleDimensionTest {
 

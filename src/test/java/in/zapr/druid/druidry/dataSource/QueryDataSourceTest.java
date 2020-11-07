@@ -18,7 +18,13 @@ package in.zapr.druid.druidry.dataSource;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import in.zapr.druid.druidry.dimension.DruidDimension;
+import in.zapr.druid.druidry.dimension.SimpleDimension;
+import in.zapr.druid.druidry.granularity.Granularity;
+import in.zapr.druid.druidry.granularity.PredefinedGranularity;
+import in.zapr.druid.druidry.granularity.SimpleGranularity;
+import in.zapr.druid.druidry.query.aggregation.DruidGroupByQuery;
+import in.zapr.druid.druidry.query.config.Interval;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.json.JSONArray;
@@ -29,16 +35,12 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 
-import in.zapr.druid.druidry.dimension.DruidDimension;
-import in.zapr.druid.druidry.dimension.SimpleDimension;
-import in.zapr.druid.druidry.granularity.Granularity;
-import in.zapr.druid.druidry.granularity.PredefinedGranularity;
-import in.zapr.druid.druidry.granularity.SimpleGranularity;
-import in.zapr.druid.druidry.query.aggregation.DruidGroupByQuery;
-import in.zapr.druid.druidry.query.config.Interval;
+import static java.time.ZoneOffset.UTC;
 
 public class QueryDataSourceTest {
     private static ObjectMapper objectMapper;
@@ -55,8 +57,8 @@ public class QueryDataSourceTest {
 
         Granularity granularity = new SimpleGranularity(PredefinedGranularity.ALL);
         // Interval
-        DateTime startTime = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeZone.UTC);
-        DateTime endTime = new DateTime(2012, 1, 3, 0, 0, 0, DateTimeZone.UTC);
+        ZonedDateTime startTime = LocalDateTime.of(2012, 1, 1, 0, 0, 0).atZone(UTC);
+        ZonedDateTime endTime = LocalDateTime.of(2012, 1, 3, 0, 0, 0).atZone(UTC);
         Interval interval = new Interval(startTime, endTime);
 
         DruidGroupByQuery druidGroupByQuery = DruidGroupByQuery.builder()
@@ -76,7 +78,7 @@ public class QueryDataSourceTest {
         expectedQuery.put("queryType", "groupBy");
         expectedQuery.put("dataSource", dataSource);
 
-        JSONArray intervalArray = new JSONArray(Collections.singletonList("2012-01-01T00:00:00.000Z/2012-01-03T00:00:00.000Z"));
+        JSONArray intervalArray = new JSONArray(Collections.singletonList("2012-01-01T00:00:00Z/2012-01-03T00:00:00Z"));
         expectedQuery.put("intervals", intervalArray);
         expectedQuery.put("granularity", "all");
         JSONArray dimensionArray = new JSONArray(Arrays.asList("dim1", "dim2"));

@@ -19,7 +19,6 @@ package in.zapr.druid.druidry.extensions.histogram.postAggregator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,9 +30,7 @@ import org.testng.annotations.Test;
 import java.util.HashSet;
 import java.util.Set;
 
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class QuantilesPostAggregatorTest {
 
     private static ObjectMapper objectMapper;

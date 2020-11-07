@@ -18,7 +18,6 @@ package in.zapr.druid.druidry.aggregator;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -27,9 +26,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class DoubleMaxAggregatorTest {
 
     private static ObjectMapper objectMapper;
@@ -59,10 +56,10 @@ public class DoubleMaxAggregatorTest {
     public void testAllButFieldName() throws JSONException, JsonProcessingException {
 
         DoubleMaxAggregator doubleMaxAggregator =
-            DoubleMaxAggregator.builder()
-                .name("CarpeDiem")
-                .expression("(\"foo\" / \"bar\")")
-                .build();
+                DoubleMaxAggregator.builder()
+                        .name("CarpeDiem")
+                        .expression("(\"foo\" / \"bar\")")
+                        .build();
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("type", "doubleMax");
@@ -75,39 +72,38 @@ public class DoubleMaxAggregatorTest {
     }
 
     @Test(expectedExceptions = NullPointerException.class)
-    public void testNullName() throws JsonProcessingException, JSONException {
-
+    public void testNullName() {
         DoubleMaxAggregator doubleMaxAggregator =
-            DoubleMaxAggregator.builder()
-                .fieldName("Haha")
-                .build();
+                DoubleMaxAggregator.builder()
+                        .fieldName("Haha")
+                        .build();
     }
 
     @Test
     public void testEqualsPositive() {
         DoubleMaxAggregator aggregator1 =
-            DoubleMaxAggregator.builder()
-                .name("name")
-                .fieldName("field")
-                .build();
+                DoubleMaxAggregator.builder()
+                        .name("name")
+                        .fieldName("field")
+                        .build();
 
         DoubleMaxAggregator aggregator2 =
-            DoubleMaxAggregator.builder()
-                .name("name")
-                .fieldName("field")
-                .build();
+                DoubleMaxAggregator.builder()
+                        .name("name")
+                        .fieldName("field")
+                        .build();
 
         DoubleMaxAggregator aggregator3 =
-            DoubleMaxAggregator.builder()
-                .name("name")
-                .expression("(\"foo\" / \"bar\")")
-                .build();
+                DoubleMaxAggregator.builder()
+                        .name("name")
+                        .expression("(\"foo\" / \"bar\")")
+                        .build();
 
         DoubleMaxAggregator aggregator4 =
-            DoubleMaxAggregator.builder()
-                .name("name")
-                .expression("(\"foo\" / \"bar\")")
-                .build();
+                DoubleMaxAggregator.builder()
+                        .name("name")
+                        .expression("(\"foo\" / \"bar\")")
+                        .build();
 
         Assert.assertEquals(aggregator1, aggregator2);
         Assert.assertEquals(aggregator3, aggregator4);
@@ -116,28 +112,28 @@ public class DoubleMaxAggregatorTest {
     @Test
     public void testEqualsNegative() {
         DoubleMaxAggregator aggregator1 =
-            DoubleMaxAggregator.builder()
-                .name("name")
-                .fieldName("field")
-                .build();
+                DoubleMaxAggregator.builder()
+                        .name("name")
+                        .fieldName("field")
+                        .build();
 
         DoubleMaxAggregator aggregator2 =
-            DoubleMaxAggregator.builder()
-                .name("name1")
-                .fieldName("field1")
-                .build();
+                DoubleMaxAggregator.builder()
+                        .name("name1")
+                        .fieldName("field1")
+                        .build();
 
         DoubleMaxAggregator aggregator3 =
-            DoubleMaxAggregator.builder()
-                .name("name")
-                .expression("(\"foo\" / \"bar\")")
-                .build();
+                DoubleMaxAggregator.builder()
+                        .name("name")
+                        .expression("(\"foo\" / \"bar\")")
+                        .build();
 
         DoubleMaxAggregator aggregator4 =
-            DoubleMaxAggregator.builder()
-                .name("name")
-                .expression("(\"foo\" / \"baz\")")
-                .build();
+                DoubleMaxAggregator.builder()
+                        .name("name")
+                        .expression("(\"foo\" / \"baz\")")
+                        .build();
 
         Assert.assertNotEquals(aggregator1, aggregator2);
         Assert.assertNotEquals(aggregator3, aggregator4);
@@ -146,10 +142,10 @@ public class DoubleMaxAggregatorTest {
     @Test
     public void testEqualsWithAnotherSubClass() {
         DoubleMaxAggregator aggregator1 =
-            DoubleMaxAggregator.builder()
-                .name("name")
-                .fieldName("field")
-                .build();
+                DoubleMaxAggregator.builder()
+                        .name("name")
+                        .fieldName("field")
+                        .build();
 
         CountAggregator aggregator2 = new CountAggregator("countAgg1");
 

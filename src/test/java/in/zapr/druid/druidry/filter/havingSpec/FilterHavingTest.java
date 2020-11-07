@@ -18,15 +18,13 @@ package in.zapr.druid.druidry.filter.havingSpec;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import in.zapr.druid.druidry.filter.SelectorFilter;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import in.zapr.druid.druidry.filter.SelectorFilter;
 
 public class FilterHavingTest {
     private static ObjectMapper objectMapper;

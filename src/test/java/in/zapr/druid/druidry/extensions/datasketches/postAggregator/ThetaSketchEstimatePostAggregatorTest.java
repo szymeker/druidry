@@ -18,7 +18,7 @@ package in.zapr.druid.druidry.extensions.datasketches.postAggregator;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import in.zapr.druid.druidry.postAggregator.FieldAccessPostAggregator;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,8 +28,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.Collections;
-
-import in.zapr.druid.druidry.postAggregator.FieldAccessPostAggregator;
 
 public class ThetaSketchEstimatePostAggregatorTest {
 

@@ -18,9 +18,7 @@ package in.zapr.druid.druidry.filter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
+import in.zapr.druid.druidry.query.config.Interval;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,10 +27,12 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import in.zapr.druid.druidry.query.config.Interval;
+import static java.time.ZoneOffset.UTC;
 
 public class IntervalFilterTest {
 
@@ -59,23 +59,23 @@ public class IntervalFilterTest {
     public void testFields() throws JsonProcessingException, JSONException {
 
         JSONArray intervalJsonArray
-                = new JSONArray(Arrays.asList("2013-08-31T00:00:00.000Z/2013-09-03T00:00:00.000Z",
-                "2018-08-31T00:00:00.000Z/2018-09-03T00:00:00.000Z"));
+                = new JSONArray(Arrays.asList("2013-08-31T00:00:00Z/2013-09-03T00:00:00Z",
+                "2018-08-31T00:00:00Z/2018-09-03T00:00:00Z"));
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("type", "interval");
         jsonObject.put("dimension", "__time");
         jsonObject.put("intervals", intervalJsonArray);
 
-        DateTime startTimeInterval1 = new DateTime(2013, 8, 31,
-                0, 0, 0, DateTimeZone.UTC);
-        DateTime endTimeInterval1 = new DateTime(2013, 9, 3,
-                0, 0, 0, DateTimeZone.UTC);
+        ZonedDateTime startTimeInterval1 = LocalDateTime.of(2013, 8, 31,
+                0, 0, 0).atZone(UTC);
+        ZonedDateTime endTimeInterval1 = LocalDateTime.of(2013, 9, 3,
+                0, 0, 0).atZone(UTC);
 
-        DateTime startTimeInterval2 = new DateTime(2018, 8, 31,
-                0, 0, 0, DateTimeZone.UTC);
-        DateTime endTimeInterval2 = new DateTime(2018, 9, 3,
-                0, 0, 0, DateTimeZone.UTC);
+        ZonedDateTime startTimeInterval2 = LocalDateTime.of(2018, 8, 31,
+                0, 0, 0).atZone(UTC);
+        ZonedDateTime endTimeInterval2 = LocalDateTime.of(2018, 9, 3,
+                0, 0, 0).atZone(UTC);
 
         Interval interval1 = new Interval(startTimeInterval1, endTimeInterval1);
         Interval interval2 = new Interval(startTimeInterval2, endTimeInterval2);

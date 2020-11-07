@@ -2,7 +2,6 @@ package in.zapr.druid.druidry.topNMetric;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -11,7 +10,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-@Slf4j
+
 public class InvertedMetricTest {
     private static ObjectMapper objectMapper;
 
@@ -37,7 +36,7 @@ public class InvertedMetricTest {
 
         String actualJSON = objectMapper.writeValueAsString(invertedMetric);
         String expectedJSON = jsonObject.toString();
-        JSONAssert.assertEquals(expectedJSON, actualJSON, JSONCompareMode.NON_EXTENSIBLE);;
+        JSONAssert.assertEquals(expectedJSON, actualJSON, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     @Test(expectedExceptions = NullPointerException.class)

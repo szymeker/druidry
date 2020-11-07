@@ -21,6 +21,10 @@ import org.joda.time.DateTimeZone;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.time.ZonedDateTime;
+
+import static java.time.ZoneOffset.UTC;
+
 public class SimpleGranularityTest {
 
     @Test
@@ -43,7 +47,7 @@ public class SimpleGranularityTest {
     public void testEqualsWithAnotherSubClass() {
         SimpleGranularity granularity1 = new SimpleGranularity(PredefinedGranularity.ALL);
 
-        DateTime originDate = new DateTime(DateTimeZone.UTC);
+        ZonedDateTime originDate = ZonedDateTime.now(UTC);
         DurationGranularity granularity2 = new DurationGranularity(3141, originDate);
 
         Assert.assertNotEquals(granularity1, granularity2);
