@@ -18,22 +18,6 @@ package in.zapr.druid.druidry.query.search;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.json.JSONException;
-import org.skyscreamer.jsonassert.JSONAssert;
-import org.skyscreamer.jsonassert.JSONCompareMode;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import in.zapr.druid.druidry.query.config.Context;
-import in.zapr.druid.druidry.query.config.Interval;
-import in.zapr.druid.druidry.query.config.SortingOrder;
 import in.zapr.druid.druidry.dataSource.TableDataSource;
 import in.zapr.druid.druidry.dimension.DruidDimension;
 import in.zapr.druid.druidry.dimension.SimpleDimension;
@@ -44,7 +28,27 @@ import in.zapr.druid.druidry.filter.searchQuerySpec.InsensitiveContainsSearchQue
 import in.zapr.druid.druidry.filter.searchQuerySpec.SearchQuerySpec;
 import in.zapr.druid.druidry.granularity.PredefinedGranularity;
 import in.zapr.druid.druidry.granularity.SimpleGranularity;
+import in.zapr.druid.druidry.query.config.Context;
+import in.zapr.druid.druidry.query.config.Interval;
+import in.zapr.druid.druidry.query.config.SortingOrder;
 import in.zapr.druid.druidry.virtualColumn.ExpressionVirtualColumn;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.json.JSONException;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import static java.time.ZoneOffset.*;
 
 public class DruidSearchQueryTest {
     private static ObjectMapper objectMapper;
@@ -62,10 +66,10 @@ public class DruidSearchQueryTest {
 
         SearchQuerySpec searchQuerySpec = new InsensitiveContainsSearchQuerySpec("Ke");
 
-        DateTime startTime = new DateTime(2013, 1, 1, 0,
-                0, 0, DateTimeZone.UTC);
-        DateTime endTime = new DateTime(2013, 1, 3, 0,
-                0, 0, DateTimeZone.UTC);
+        ZonedDateTime startTime = LocalDateTime.of(2013, 1, 1, 0,
+                0, 0).atZone(UTC);
+        ZonedDateTime endTime = LocalDateTime.of(2013, 1, 3, 0,
+                0, 0).atZone(UTC);
         Interval interval = new Interval(startTime, endTime);
 
         DruidSearchQuery query = DruidSearchQuery.builder()
@@ -103,7 +107,7 @@ public class DruidSearchQueryTest {
                 "    \"type\": \"lexicographic\"\n" +
                 "  }," +
                 "  \"intervals\": [" +
-                "    \"2013-01-01T00:00:00.000Z/2013-01-03T00:00:00.000Z\"" +
+                "    \"2013-01-01T00:00:00Z/2013-01-03T00:00:00Z\"" +
                 "  ]" +
                 "}";
 
@@ -116,10 +120,10 @@ public class DruidSearchQueryTest {
 
         SearchQuerySpec searchQuerySpec = new InsensitiveContainsSearchQuerySpec("Ke");
 
-        DateTime startTime = new DateTime(2013, 1, 1, 0,
-                0, 0, DateTimeZone.UTC);
-        DateTime endTime = new DateTime(2013, 1, 3, 0,
-                0, 0, DateTimeZone.UTC);
+        ZonedDateTime startTime = LocalDateTime.of(2013, 1, 1, 0,
+                0, 0).atZone(UTC);
+        ZonedDateTime endTime = LocalDateTime.of(2013, 1, 3, 0,
+                0, 0).atZone(UTC);
         Interval interval = new Interval(startTime, endTime);
 
         DruidSearchQuery query = DruidSearchQuery.builder()
@@ -141,7 +145,7 @@ public class DruidSearchQueryTest {
                 "    \"value\": \"Ke\"\n" +
                 "  },\n" +
                 "  \"intervals\": [" +
-                "    \"2013-01-01T00:00:00.000Z/2013-01-03T00:00:00.000Z\"" +
+                "    \"2013-01-01T00:00:00Z/2013-01-03T00:00:00Z\"" +
                 "  ]" +
                 "}";
 
@@ -157,10 +161,10 @@ public class DruidSearchQueryTest {
 
         SearchQuerySpec searchQuerySpec = new InsensitiveContainsSearchQuerySpec("Ke");
 
-        DateTime startTime = new DateTime(2013, 1, 1, 0,
-                0, 0, DateTimeZone.UTC);
-        DateTime endTime = new DateTime(2013, 1, 3, 0,
-                0, 0, DateTimeZone.UTC);
+        ZonedDateTime startTime = LocalDateTime.of(2013, 1, 1, 0,
+                0, 0).atZone(UTC);
+        ZonedDateTime endTime =LocalDateTime.of(2013, 1, 3, 0,
+                0, 0).atZone(UTC);
         Interval interval = new Interval(startTime, endTime);
 
         DruidFilter druidFilter = new SelectorFilter("Dim", "You");
@@ -213,7 +217,7 @@ public class DruidSearchQueryTest {
                 "    \"type\": \"lexicographic\"\n" +
                 "  }," +
                 "  \"intervals\": [" +
-                "    \"2013-01-01T00:00:00.000Z/2013-01-03T00:00:00.000Z\"" +
+                "    \"2013-01-01T00:00:00Z/2013-01-03T00:00:00Z\"" +
                 "  ]," +
                 "  \"context\": {\n" +
                 "    \"useCache\" : true\n" +

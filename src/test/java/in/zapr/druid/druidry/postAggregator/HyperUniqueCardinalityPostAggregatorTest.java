@@ -18,7 +18,6 @@ package in.zapr.druid.druidry.postAggregator;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -27,9 +26,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class HyperUniqueCardinalityPostAggregatorTest {
 
     private static ObjectMapper objectMapper;

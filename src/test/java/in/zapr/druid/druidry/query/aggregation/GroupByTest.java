@@ -18,25 +18,6 @@ package in.zapr.druid.druidry.query.aggregation;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import in.zapr.druid.druidry.filter.havingSpec.HavingSpec;
-import in.zapr.druid.druidry.filter.havingSpec.GreaterThanHaving;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.skyscreamer.jsonassert.JSONAssert;
-import org.skyscreamer.jsonassert.JSONCompareMode;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import in.zapr.druid.druidry.query.config.Context;
-import in.zapr.druid.druidry.query.config.Interval;
 import in.zapr.druid.druidry.aggregator.CountAggregator;
 import in.zapr.druid.druidry.aggregator.DoubleSumAggregator;
 import in.zapr.druid.druidry.aggregator.DruidAggregator;
@@ -48,17 +29,32 @@ import in.zapr.druid.druidry.filter.AndFilter;
 import in.zapr.druid.druidry.filter.DruidFilter;
 import in.zapr.druid.druidry.filter.OrFilter;
 import in.zapr.druid.druidry.filter.SelectorFilter;
+import in.zapr.druid.druidry.filter.havingSpec.GreaterThanHaving;
+import in.zapr.druid.druidry.filter.havingSpec.HavingSpec;
 import in.zapr.druid.druidry.granularity.Granularity;
 import in.zapr.druid.druidry.granularity.PredefinedGranularity;
 import in.zapr.druid.druidry.granularity.SimpleGranularity;
 import in.zapr.druid.druidry.limitSpec.DefaultLimitSpec;
 import in.zapr.druid.druidry.limitSpec.orderByColumnSpec.OrderByColumnSpec;
 import in.zapr.druid.druidry.limitSpec.orderByColumnSpec.OrderByColumnSpecString;
-import in.zapr.druid.druidry.postAggregator.ArithmeticFunction;
-import in.zapr.druid.druidry.postAggregator.ArithmeticPostAggregator;
-import in.zapr.druid.druidry.postAggregator.ConstantPostAggregator;
-import in.zapr.druid.druidry.postAggregator.DruidPostAggregator;
-import in.zapr.druid.druidry.postAggregator.FieldAccessPostAggregator;
+import in.zapr.druid.druidry.postAggregator.*;
+import in.zapr.druid.druidry.query.config.Context;
+import in.zapr.druid.druidry.query.config.Interval;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import static java.time.ZoneOffset.UTC;
 
 public class GroupByTest {
     private static ObjectMapper objectMapper;
@@ -110,7 +106,7 @@ public class GroupByTest {
                 "      ]\n" +
                 "    }\n" +
                 "  ],\n" +
-                "  \"intervals\": [ \"2012-01-01T00:00:00.000Z/2012-01-03T00:00:00.000Z\" ]\n" +
+                "  \"intervals\": [ \"2012-01-01T00:00:00Z/2012-01-03T00:00:00Z\" ]\n" +
                 "}\n";
 
         // Druid dimensions
@@ -149,8 +145,8 @@ public class GroupByTest {
                 .build();
 
         // Interval
-        DateTime startTime = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeZone.UTC);
-        DateTime endTime = new DateTime(2012, 1, 3, 0, 0, 0, DateTimeZone.UTC);
+        ZonedDateTime startTime = LocalDateTime.of(2012, 1, 1, 0, 0, 0).atZone(UTC);
+        ZonedDateTime endTime = LocalDateTime.of(2012, 1, 3, 0, 0, 0).atZone(UTC);
         Interval interval = new Interval(startTime, endTime);
 
         DruidGroupByQuery query = DruidGroupByQuery.builder()
@@ -176,8 +172,8 @@ public class GroupByTest {
 
         Granularity granularity = new SimpleGranularity(PredefinedGranularity.ALL);
         // Interval
-        DateTime startTime = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeZone.UTC);
-        DateTime endTime = new DateTime(2012, 1, 3, 0, 0, 0, DateTimeZone.UTC);
+        ZonedDateTime startTime = LocalDateTime.of(2012, 1, 1, 0, 0, 0).atZone(UTC);
+        ZonedDateTime endTime = LocalDateTime.of(2012, 1, 3, 0, 0, 0).atZone(UTC);
         Interval interval = new Interval(startTime, endTime);
 
         DruidGroupByQuery druidGroupByQuery = DruidGroupByQuery.builder()
@@ -197,7 +193,7 @@ public class GroupByTest {
         expectedQuery.put("queryType", "groupBy");
         expectedQuery.put("dataSource", dataSource);
 
-        JSONArray intervalArray = new JSONArray(Collections.singletonList("2012-01-01T00:00:00.000Z/2012-01-03T00:00:00.000Z"));
+        JSONArray intervalArray = new JSONArray(Collections.singletonList("2012-01-01T00:00:00Z/2012-01-03T00:00:00Z"));
         expectedQuery.put("intervals", intervalArray);
         expectedQuery.put("granularity", "all");
         JSONArray dimensionArray = new JSONArray(Arrays.asList("dim1", "dim2"));
@@ -213,8 +209,8 @@ public class GroupByTest {
 
         Granularity granularity = new SimpleGranularity(PredefinedGranularity.ALL);
         // Interval
-        DateTime startTime = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeZone.UTC);
-        DateTime endTime = new DateTime(2012, 1, 3, 0, 0, 0, DateTimeZone.UTC);
+        ZonedDateTime startTime = LocalDateTime.of(2012, 1, 1, 0, 0, 0).atZone(UTC);
+        ZonedDateTime endTime = LocalDateTime.of(2012, 1, 3, 0, 0, 0).atZone(UTC);
         Interval interval = new Interval(startTime, endTime);
 
         DruidFilter filter = new SelectorFilter("Spread", "Peace");
@@ -254,8 +250,8 @@ public class GroupByTest {
         JSONObject expectedContext = new JSONObject();
         expectedContext.put("populateCache", true);
 
-        JSONArray intervalArray = new JSONArray(Collections.singletonList("2012-01-01T00:00:00.000Z/" +
-                "2012-01-03T00:00:00.000Z"));
+        JSONArray intervalArray = new JSONArray(Collections.singletonList("2012-01-01T00:00:00Z/" +
+                "2012-01-03T00:00:00Z"));
         JSONArray dimensionArray = new JSONArray(Arrays.asList("dim1", "dim2"));
 
         JSONObject dataSource = new JSONObject();

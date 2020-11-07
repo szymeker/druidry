@@ -18,7 +18,6 @@ package in.zapr.druid.druidry.postAggregator;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,9 +30,7 @@ import org.testng.annotations.Test;
 import java.util.Collections;
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class ArithmeticPostAggregatorTest {
 
     private static ObjectMapper objectMapper;

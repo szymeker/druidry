@@ -16,24 +16,8 @@
 
 package in.zapr.druid.druidry.query.aggregation;
 
-import com.google.common.io.Resources;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.skyscreamer.jsonassert.JSONAssert;
-import org.skyscreamer.jsonassert.JSONCompareMode;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-import org.testng.reporters.Files;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-
+import com.google.common.io.Resources;
 import in.zapr.druid.druidry.aggregator.DoubleSumAggregator;
 import in.zapr.druid.druidry.aggregator.DruidAggregator;
 import in.zapr.druid.druidry.averager.DoubleMeanAverager;
@@ -51,8 +35,22 @@ import in.zapr.druid.druidry.postAggregator.DruidPostAggregator;
 import in.zapr.druid.druidry.postAggregator.FieldAccessPostAggregator;
 import in.zapr.druid.druidry.query.config.Context;
 import in.zapr.druid.druidry.query.config.Interval;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+import org.testng.reporters.Files;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 import static com.google.common.collect.ImmutableList.of;
+import static java.time.ZoneOffset.UTC;
 import static java.util.Collections.singletonList;
 import static org.testng.Assert.assertTrue;
 
@@ -83,8 +81,8 @@ public class MovingAverageTest {
         DefaultLimitSpec limitSpec =
                 new DefaultLimitSpec(5000, of(new OrderByColumnSpecString("column_1"),
                         new OrderByColumnSpecString("column_2")));
-        DateTime startTime = new DateTime(2020, 2, 1, 0, 0, 0, DateTimeZone.UTC);
-        DateTime endTime = new DateTime(2020, 3, 31, 23, 59, 59, DateTimeZone.UTC);
+        ZonedDateTime startTime = LocalDateTime.of(2020, 2, 1, 0, 0, 0).atZone(UTC);
+        ZonedDateTime endTime = LocalDateTime.of(2020, 3, 31, 23, 59, 59).atZone(UTC);
         Interval interval = new Interval(startTime, endTime);
         String averagedName = "averagedName";
         DruidAggregator aggregator = new DoubleSumAggregator(averagedName, "aggregatedFieldName");
@@ -119,8 +117,8 @@ public class MovingAverageTest {
 
     @Test(expectedExceptions = NullPointerException.class)
     public void tryToBuildWithoutDataSource() {
-        DateTime startTime = new DateTime(2020, 2, 1, 0, 0, 0, DateTimeZone.UTC);
-        DateTime endTime = new DateTime(2020, 3, 31, 23, 59, 59, DateTimeZone.UTC);
+        ZonedDateTime startTime = LocalDateTime.of(2020, 2, 1, 0, 0, 0).atZone(UTC);
+        ZonedDateTime endTime = LocalDateTime.of(2020, 3, 31, 23, 59, 59).atZone(UTC);
         Interval interval = new Interval(startTime, endTime);
         DruidAggregator aggregator = new DoubleSumAggregator("name", "fieldName");
         DruidAverager averager = DoubleMeanAverager.builder()
@@ -140,8 +138,8 @@ public class MovingAverageTest {
 
     @Test(expectedExceptions = NullPointerException.class)
     public void tryToBuildWithoutGranularity() {
-        DateTime startTime = new DateTime(2020, 2, 1, 0, 0, 0, DateTimeZone.UTC);
-        DateTime endTime = new DateTime(2020, 3, 31, 23, 59, 59, DateTimeZone.UTC);
+        ZonedDateTime startTime = LocalDateTime.of(2020, 2, 1, 0, 0, 0).atZone(UTC);
+        ZonedDateTime endTime = LocalDateTime.of(2020, 3, 31, 23, 59, 59).atZone(UTC);
         Interval interval = new Interval(startTime, endTime);
         DruidAggregator aggregator = new DoubleSumAggregator("name", "fieldName");
         DruidAverager averager = DoubleMeanAverager.builder()
@@ -161,8 +159,8 @@ public class MovingAverageTest {
 
     @Test(expectedExceptions = NullPointerException.class)
     public void tryToBuildWithoutAggregations() {
-        DateTime startTime = new DateTime(2020, 2, 1, 0, 0, 0, DateTimeZone.UTC);
-        DateTime endTime = new DateTime(2020, 3, 31, 23, 59, 59, DateTimeZone.UTC);
+        ZonedDateTime startTime = LocalDateTime.of(2020, 2, 1, 0, 0, 0).atZone(UTC);
+        ZonedDateTime endTime = LocalDateTime.of(2020, 3, 31, 23, 59, 59).atZone(UTC);
         Interval interval = new Interval(startTime, endTime);
         DruidAverager averager = DoubleMeanAverager.builder()
                 .name("name")
@@ -199,8 +197,8 @@ public class MovingAverageTest {
 
     @Test(expectedExceptions = NullPointerException.class)
     public void tryToBuildWithoutAveragers() {
-        DateTime startTime = new DateTime(2020, 2, 1, 0, 0, 0, DateTimeZone.UTC);
-        DateTime endTime = new DateTime(2020, 3, 31, 23, 59, 59, DateTimeZone.UTC);
+        ZonedDateTime startTime = LocalDateTime.of(2020, 2, 1, 0, 0, 0).atZone(UTC);
+        ZonedDateTime endTime = LocalDateTime.of(2020, 3, 31, 23, 59, 59).atZone(UTC);
         Interval interval = new Interval(startTime, endTime);
         DruidAggregator aggregator = new DoubleSumAggregator("name", "fieldName");
 
@@ -255,8 +253,8 @@ public class MovingAverageTest {
 
     private static DruidMovingAverageQuery simpleQuery(
             MovingAverageCreators.Creator averagerCreator) {
-        DateTime startTime = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeZone.UTC);
-        DateTime endTime = new DateTime(2020, 2, 29, 23, 59, 59, DateTimeZone.UTC);
+        ZonedDateTime startTime = LocalDateTime.of(2020, 1, 1, 0, 0, 0).atZone(UTC);
+        ZonedDateTime endTime = LocalDateTime.of(2020, 2, 29, 23, 59, 59).atZone(UTC);
         Interval interval = new Interval(startTime, endTime);
         String averagedName = "averagedName";
         DruidAggregator aggregator = new DoubleSumAggregator(averagedName, "aggregatedFieldName");

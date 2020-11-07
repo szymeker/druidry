@@ -18,17 +18,15 @@ package in.zapr.druid.druidry.dimension;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import in.zapr.druid.druidry.dimension.enums.OutputType;
+import in.zapr.druid.druidry.extractionFunctions.ExtractionFunction;
+import in.zapr.druid.druidry.extractionFunctions.PartialExtractionFunction;
 import org.json.JSONException;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import in.zapr.druid.druidry.dimension.enums.OutputType;
-import in.zapr.druid.druidry.extractionFunctions.ExtractionFunction;
-import in.zapr.druid.druidry.extractionFunctions.PartialExtractionFunction;
 
 public class ExtractionDimensionTest {
     private static ObjectMapper objectMapper;

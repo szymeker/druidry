@@ -17,13 +17,13 @@
 package in.zapr.druid.druidry.granularity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Builder
 @Getter
@@ -40,14 +40,14 @@ public class PeriodGranularity extends Granularity {
     private String period;
 
     // TODO: Check if it is alright
-    private DateTimeZone timeZone;
-    private DateTime origin;
+    private ZoneId timeZone;
+    private ZonedDateTime origin;
 
     public String getOrigin() {
-        return origin == null ? null : origin.toDateTimeISO().toString();
+        return origin == null ? null : DateTimeFormatter.ISO_DATE_TIME.format(origin);
     }
 
     public String getTimeZone() {
-        return timeZone == null ? DEFAULT_TIMEZONE : timeZone.getID();
+        return timeZone == null ? DEFAULT_TIMEZONE : timeZone.getId();
     }
 }

@@ -16,17 +16,7 @@
 
 package in.zapr.druid.druidry.query.aggregation;
 
-import in.zapr.druid.druidry.averager.DoubleMaxAverager;
-import in.zapr.druid.druidry.averager.DoubleMeanAverager;
-import in.zapr.druid.druidry.averager.DoubleMeanNoNullsAverager;
-import in.zapr.druid.druidry.averager.DoubleMinAverager;
-import in.zapr.druid.druidry.averager.DoubleSumAverager;
-import in.zapr.druid.druidry.averager.DruidAverager;
-import in.zapr.druid.druidry.averager.LongMaxAverager;
-import in.zapr.druid.druidry.averager.LongMeanAverager;
-import in.zapr.druid.druidry.averager.LongMeanNoNullsAverager;
-import in.zapr.druid.druidry.averager.LongMinAverager;
-import in.zapr.druid.druidry.averager.LongSumAverager;
+import in.zapr.druid.druidry.averager.*;
 
 class MovingAverageCreators {
 
